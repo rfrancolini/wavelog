@@ -1,0 +1,20 @@
+Package: wavelogger
+Type: Package
+Title: Processes Open Wave Height Logger Data
+Version: 0.1.0
+Author: Rene Francolini
+Maintainer: Rene Francolini <rfrancolini@bigelow.org>
+Description: This will process your Open Wave Height Logger data. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Imports: 
+  dplyr,
+  readr,
+  stringr,
+  ggplot2,
+  oceanwaves,
+  oce,
+  owhlR,
+  rlang
