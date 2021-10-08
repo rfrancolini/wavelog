@@ -2,7 +2,7 @@
 
 export(example_airpressure)
 export(example_filepath)
-export(interp_wave_air)
+export(interp_swpressure)
 export(read_airpressure)
 export(read_wavelogger)
 importFrom(dplyr,"%>%")

@@ -31,8 +31,27 @@ remotes::install_github("rfrancolini/wavelogger")
 
 ## Read Example Data
 
-```{r example}
+```{r exampleData}
 library(wavelogger)
 x <- read_wavelogger()
 head(x)
 ```
+
+## Read Air Pressure Data
+
+```{r Airpressure}
+a <- read_airpressure()
+head(a)
+```
+
+## Interpolate Data, Calculate Sea Water Pressure
+
+```{r InterpSeaWater}
+i <- interp_swpressure(wavelogger = x, airpressure = a) 
+head(i)
+```
+
+
+
+
+

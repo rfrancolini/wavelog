@@ -91,14 +91,14 @@ read_airpressure <- function(filename = example_airpressure())
     return(x)
 }
 
-#' interpolate sea level pressure to match owhl data
+#' interpolate air pressure to match owhl, calculate seawater pressure
 #'
 #' @export
 #' @param wavelogger tibble, wavelogger data
 #' @param airpressure tibble, airpressure data
 #' @return tibble
 
-interp_wave_air <- function(wavelogger = read_wavelogger(),
+interp_swpressure <- function(wavelogger = read_wavelogger(),
                             airpressure = read_airpressure())
   {
     ix <- findInterval(wavelogger$DateTime, airpressure$DateTime)
