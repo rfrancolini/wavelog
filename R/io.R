@@ -42,7 +42,7 @@ read_wavelogger <- function(filepath = example_filepath())
 
   }
 
-  return(dplyr::as_tibble(x))
+  return(dplyr::as_tibble(x) %>% dplyr::select(-POSIXt, -frac.seconds))
 
 }
 
@@ -80,15 +80,13 @@ read_airpressure <- function(filename = example_airpressure())
     #cleaning up the header
     h <- colnames(x)
     lut <- c("Station_ID" = "Station_ID",
-             "Date_Time" = "date",
-             "sea_level_pressure_set_1.INHG" = "sea_pressure.INHG.1",
-             "pressure_set_1d.INHG" = "pressure.INHG.2",
-             "sea_level_pressure_set_1d.INHG" = "sea_pressure.INHG.3",
+             "Date_Time" = "DateTime",
+             "sea_level_pressure_set_1d.INHG" = "sea_pressure.INHG",
              "sea_level_pressure_set_1d.mbar" = "sea_pressure.mbar")
     colnames(x) <- lut[h]
 
     #convert date/time to POSIXct format
-    x$date = as.POSIXct(x$date, format = "%m/%d/%Y %H:%M", tz = 'UTC')
+    x$DateTime = as.POSIXct(x$DateTime, format = "%m/%d/%Y %H:%M", tz = 'UTC')
 
     return(x)
 }
@@ -103,25 +101,17 @@ read_airpressure <- function(filename = example_airpressure())
 interp_wave_air <- function(wavelogger = read_wavelogger(),
                             airpressure = read_airpressure())
   {
-  # Convert data sets to zoo objects
-  wave <- zoo::zoo(wavelogger[,'Pressure.mbar'],
-                   order.by = wavelogger[,'DateTime'])
+    ix <- findInterval(wavelogger$DateTime, airpressure$DateTime)
 
-  air <- zoo::zoo(airpressure[,'sea_pressure.mbar'],
-            order.by = airpressure$date)
+    wavelogger <- wavelogger %>%
+      dplyr::mutate(airpressure = airpressure$sea_pressure.mbar[ix],
+                    swpressure = Pressure.mbar - airpressure)
 
-  # Linearly interpolate 'air' to match the time index in 'wave'
-  airout <- window(zoo::na.approx(merge(wave,air)), zoo::index(wave))
+    # Convert data to tsibbles
+    #air <- tsibble::as_tsibble(airpressure, index = date)
+    #wave <- tsibble::as_tsibble(wavelogger, index = DateTime)
 
-  # Copy the resulting sea level pressure data into 'wavelogger' data frame
-  ###NOT WORKING OCT 7###
-  wavelogger$SeaLevelPress.mbar <- round(as.numeric(airout$air), digits=2)
-
-  # Call the new column swPressure.mbar for "seawater pressure"
-  wavelogger$swPressure.mbar <- wavelogger$Pressure.mbar - wavelogger$SeaLevelPress.mbar
-
-  return(wavelogger)
-
+    return(wavelogger)
 }
 
 
