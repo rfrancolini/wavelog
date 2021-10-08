@@ -20,7 +20,7 @@ This is for managing and understanding your open wave height logger data
   + [ggplot2](https://CRAN.R-project.org/package=ggplot2)
   + [oceanwaves](https://CRAN.R-project.org/package=oceanwaves)
   + [oce](https://CRAN.R-project.org/package=oce)
-  + [owhlR](https://github.com/millerlp/owhlR)
+  + [owhlR](https://github.com/millerlp/owhlR) *from github*
 
 ## Installation
 

@@ -4,7 +4,8 @@
 #' @export
 #' @return character
 example_filepath <- function(){
-  x <- ("inst/exampledata/2021_OWHL_LittleDris_Small.zip")
+  system.file("exampledata/2021_OWHL_LittleDris_Small.zip",
+                   package = "wavelogger")
 }
 
 
@@ -35,13 +36,13 @@ read_wavelogger <- function(filepath = example_filepath())
 
     tempd <- tempdir()
     unzip(filepath, exdir = tempd)
-    filenames <- paste(tempd, filenames, sep ="\\")
+    filenames <- file.path(tempd, filenames)
     x = owhlR::joinOWHLfiles(filenames, timezone = myTimeZone, verbose = FALSE)
     unlink(tempd)
 
   }
 
-  return(x)
+  return(dplyr::as_tibble(x))
 
 }
 
@@ -51,7 +52,8 @@ read_wavelogger <- function(filepath = example_filepath())
 #' @export
 #' @return character
 example_airpressure <- function(){
-  x <- ("inst/exampledata/KRKD_MesoWest_LittleDris_Small.csv")
+  system.file("exampledata/KRKD_MesoWest_LittleDris_Small.csv",
+              package = "wavelogger")
 }
 
 
