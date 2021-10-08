@@ -2,7 +2,7 @@
 % Please edit documentation in R/io.R
 \name{example_filepath}
 \alias{example_filepath}
-\title{retreive example type wavelogger directory path}
+\title{retrieve example type wavelogger directory path}
 \usage{
 example_filepath()
 }
@@ -10,5 +10,5 @@ example_filepath()
 character
 }
 \description{
-retreive example type wavelogger directory path
+retrieve example type wavelogger directory path
 }

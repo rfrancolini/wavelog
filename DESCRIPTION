@@ -17,4 +17,5 @@ Imports:
   oceanwaves,
   oce,
   owhlR,
-  rlang
+  rlang,
+  zoo

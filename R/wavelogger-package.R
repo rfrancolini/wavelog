@@ -8,4 +8,5 @@
 #' @importFrom dplyr %>%
 #' @importFrom rlang .data
 #' @importFrom utils unzip
+#' @importFrom stats window
 NULL

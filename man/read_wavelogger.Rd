@@ -4,14 +4,10 @@
 \alias{read_wavelogger}
 \title{read wavelogger data file}
 \usage{
-read_wavelogger(filepath = example_filepath(), deploy = NA, recover = NA)
+read_wavelogger(filepath = example_filepath())
 }
 \arguments{
 \item{filepath}{character, the name of the directory - full path needed}
-
-\item{deploy}{POSIXt or NA, if not NA, clip data before this time}
-
-\item{recover}{POSIXt or NA, if not NA, clip data before this time}
 }
 \value{
 tibble
