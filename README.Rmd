@@ -44,14 +44,16 @@ a <- read_airpressure()
 head(a)
 ```
 
-## Interpolate Data, Calculate Sea Water Pressure
+## Calculate Wave Statistcs
 
-```{r InterpSeaWater}
-i <- interp_swpressure(wavelogger = x, airpressure = a) 
-head(i)
+```{r WaveStats}
+w <- wave_stats() 
+head(w)
 ```
 
-
-
-
+## Graph Significant Wave Height
+```{r GraphWaves}
+wave_plot <- wavespec_plot(w)
+wave_plot
+```
 

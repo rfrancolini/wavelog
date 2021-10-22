@@ -4,10 +4,18 @@
 \alias{read_wavelogger}
 \title{read wavelogger data file}
 \usage{
-read_wavelogger(filepath = example_filepath())
+read_wavelogger(
+  filepath = example_filepath(),
+  clipped = c("auto", "user", "none")[1],
+  startstop = NA
+)
 }
 \arguments{
 \item{filepath}{character, the name of the directory - full path needed}
+
+\item{clipped}{character, if auto, removed partial start/end days. if user, uses supplied startstop days. if none, does no date trimming}
+
+\item{startstop}{POSIXt vector of two values or NA, only used if clip = "user"}
 }
 \value{
 tibble

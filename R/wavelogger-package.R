@@ -9,4 +9,5 @@
 #' @importFrom rlang .data
 #' @importFrom utils unzip
 #' @importFrom stats window
+#' @importFrom stats na.omit
 NULL
