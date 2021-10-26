@@ -10,4 +10,5 @@
 #' @importFrom utils unzip
 #' @importFrom stats window
 #' @importFrom stats na.omit
+#' @importFrom utils read.csv
 NULL

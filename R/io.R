@@ -104,6 +104,8 @@ read_wavelogger <- function(filepath = example_filepath(),
 example_airpressure <- function(){
   x <- read.csv(system.file("exampledata/KRKD_MesoWest_LittleDris.csv",
               package = "wavelogger"))
+  x <- na.omit(x)
+  return(x)
 }
 
 #' retrieve air pressure data from mesowest database
@@ -141,42 +143,12 @@ read_airpressure <- function(api_key = NA,
         dplyr::rename(sea_pressure.mbar = .data$sea_level_pressure_set_1d)
 
   x$DateTime = as.POSIXct(x$DateTime, format = "%Y-%m-%dT%H:%M:%S", tz = 'UTC')
+  x <- na.omit(x)
 
   return(x)
 
 }
 
-
-#' read sea level pressure data file
-#'
-#' @export
-#' @param filename character, the name of the air pressure file
-#' @return tibble
-
-read_airpressure_old <- function(filename = example_airpressure())
-  {
-    stopifnot(inherits(filename, "character"))
-    stopifnot(file.exists(filename[1]))
-
-    #This is particular to current example dataset.
-    x <- suppressMessages(readr::read_csv(filename[1], skip = 6))
-
-    #cleaning up the header
-    h <- colnames(x)
-    lut <- c("Station_ID" = "Station_ID",
-             "Date_Time" = "DateTime",
-             "sea_level_pressure_set_1d.INHG" = "sea_pressure.INHG",
-             "sea_level_pressure_set_1d.mbar" = "sea_pressure.mbar")
-    colnames(x) <- lut[h]
-
-    #convert date/time to POSIXct format
-    x$DateTime = as.POSIXct(x$DateTime, format = "%m/%d/%Y %H:%M", tz = 'UTC')
-
-    #omit any rows that have an NA value
-    x <- na.omit(x)
-
-    return(x)
-}
 
 #' interpolate air pressure to match owhl, calculate seawater pressure
 #'
