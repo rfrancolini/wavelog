@@ -2,16 +2,18 @@
 % Please edit documentation in R/io.R
 \name{read_airpressure}
 \alias{read_airpressure}
-\title{read sea level pressure data file}
+\title{retrieve air pressure data from mesowest database}
 \usage{
-read_airpressure(filename = example_airpressure())
+read_airpressure(api_key = NA, wavelogger = read_wavelogger())
 }
 \arguments{
-\item{filename}{character, the name of the air pressure file}
+\item{api_key}{character, your api key for mesowest}
+
+\item{wavelogger}{tibble, wavelogger data}
 }
 \value{
 tibble
 }
 \description{
-read sea level pressure data file
+retrieve air pressure data from mesowest database
 }

@@ -18,7 +18,7 @@ clip_wavelogger <- function(x,
                            startstop = NA) {
 
   if (is.na(startstop)[1]) {
-    x <- x %>% dplyr::mutate (Date = as.Date(.data$DateTime, tz = "EST"),
+    x <- x %>% dplyr::mutate (Date = as.Date(.data$DateTime, tz = "UTC"),
                               DateNum = as.numeric(.data$DateTime))
 
     ix <- which(diff(x$Date) != 0)[1]  + 1
@@ -102,16 +102,50 @@ read_wavelogger <- function(filepath = example_filepath(),
 #' @export
 #' @return character
 example_airpressure <- function(){
-  system.file("exampledata/KRKD_MesoWest_LittleDris_Small.csv",
-              package = "wavelogger")
+  x <- read.csv(system.file("exampledata/KRKD_MesoWest_LittleDris.csv",
+              package = "wavelogger"))
 }
 
+#' retrieve air pressure data from mesowest database
+#'
+#' @export
+#' @param api_key character, your api key for mesowest
+#' @param wavelogger tibble, wavelogger data
+#' @return tibble
 
-#########################################################
-### Need to figure out how to grab air pressure data
-### that matches the timeframe of the owhl data
-### until then using example data i am feeding it
-#########################################################
+read_airpressure <- function(api_key = NA,
+                              wavelogger = read_wavelogger())
+{
+   stopifnot(inherits(api_key, "character"))
+   suppressMessages(mesowest::requestToken(api_key))
+
+  #use mesowest function to grab air pressure data
+  #uses dates of interest based on wavelogger data
+
+  starttime <- format(wavelogger$DateTime[1], "%Y%m%d%H%M")
+  stoptime <- format(dplyr::last(wavelogger$DateTime), "%Y%m%d%H%M")
+
+  meso <- mesowest::mw(service = "timeseries",
+          stid = "KRKD",
+          vars = "sea_level_pressure",
+          start = starttime,
+          end = stoptime,
+          units = "english",
+          jsonsimplify = TRUE)
+
+  x <- data.frame(lapply(meso$STATION$OBSERVATIONS, unlist))
+
+  x <- x %>%
+        dplyr::select(-2) %>%
+        dplyr::rename(DateTime = .data$date_time) %>%
+        dplyr::rename(sea_pressure.mbar = .data$sea_level_pressure_set_1d)
+
+  x$DateTime = as.POSIXct(x$DateTime, format = "%Y-%m-%dT%H:%M:%S", tz = 'UTC')
+
+  return(x)
+
+}
+
 
 #' read sea level pressure data file
 #'
@@ -119,7 +153,7 @@ example_airpressure <- function(){
 #' @param filename character, the name of the air pressure file
 #' @return tibble
 
-read_airpressure <- function(filename = example_airpressure())
+read_airpressure_old <- function(filename = example_airpressure())
   {
     stopifnot(inherits(filename, "character"))
     stopifnot(file.exists(filename[1]))
@@ -174,7 +208,7 @@ interp_swpressure <- function(wavelogger = read_wavelogger(),
 #'
 #' @export
 #' @param wavelogger tibble, wavelogger data
-#' @param latitude numeric, approx latitude of deployment - degrees north
+#' @param latitude numeric, approx latitude of deployment - degrees north, default 44.5
 #' @return tibble
 
 mbar_to_elevation <- function(wavelogger = interp_swpressure(),

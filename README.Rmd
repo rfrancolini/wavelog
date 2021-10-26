@@ -21,6 +21,7 @@ This is for managing and understanding your open wave height logger data
   + [oceanwaves](https://CRAN.R-project.org/package=oceanwaves)
   + [oce](https://CRAN.R-project.org/package=oce)
   + [owhlR](https://github.com/millerlp/owhlR) *from github*
+  + [mesowest](https://github.com/fickse/mesowest) *from github*
 
 ## Installation
 
@@ -37,17 +38,20 @@ x <- read_wavelogger()
 head(x)
 ```
 
-## Read Air Pressure Data
+## Read Air Pressure Data Example
 
 ```{r Airpressure}
-a <- read_airpressure()
+a <- example_airpressure()
 head(a)
 ```
 
 ## Calculate Wave Statistcs
 
 ```{r WaveStats}
-w <- wave_stats() 
+i <- interp_swpressure(wavelogger = x, airpressure = a)
+
+w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i)) 
+
 head(w)
 ```
 

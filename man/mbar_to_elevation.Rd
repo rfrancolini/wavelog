@@ -9,7 +9,7 @@ mbar_to_elevation(wavelogger = interp_swpressure(), latitude = 44.5)
 \arguments{
 \item{wavelogger}{tibble, wavelogger data}
 
-\item{latitude}{numeric, approx latitude of deployment - degrees north}
+\item{latitude}{numeric, approx latitude of deployment - degrees north, default 44.5}
 }
 \value{
 tibble
