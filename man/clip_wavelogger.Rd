@@ -9,7 +9,7 @@ clip_wavelogger(x, startstop = NA)
 \arguments{
 \item{x}{tibble, waveloger}
 
-\item{startstop}{POSIXt vector of two values or NA, only used if clip = "user"}
+\item{startstop}{POSIXt vector of two values in UTC or NA, only used if clip = "user"}
 }
 \value{
 tibble

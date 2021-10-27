@@ -8,7 +8,8 @@ draw_plot(
   x = mbar_to_elevation(),
   main = "Wave Height",
   xlabel = "Date",
-  ylabel = "Surface Elevation (m)"
+  ylabel = "Surface Elevation (m)",
+  ...
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ draw_plot(
 \item{xlabel}{character, title of xaxis}
 
 \item{ylabel}{character, title of yaxis}
+
+\item{...}{further arguments passed to \code{\link[ggplot2]{theme}}}
 }
 \value{
 ggplot2 object

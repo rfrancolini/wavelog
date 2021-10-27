@@ -12,7 +12,7 @@ example_filepath <- function(){
 #'
 #' @export
 #' @param x tibble, waveloger
-#' @param startstop POSIXt vector of two values or NA, only used if clip = "user"
+#' @param startstop POSIXt vector of two values in UTC or NA, only used if clip = "user"
 #' @return tibble
 clip_wavelogger <- function(x,
                            startstop = NA) {
@@ -105,6 +105,7 @@ example_airpressure <- function(){
   x <- read.csv(system.file("exampledata/KRKD_MesoWest_LittleDris.csv",
               package = "wavelogger"))
   x <- na.omit(x)
+  x$DateTime = as.POSIXct(x$DateTime, format = "%Y-%m-%dT%H:%M:%S", tz = 'UTC')
   return(x)
 }
 

@@ -6,12 +6,14 @@
 #' @param main character, title
 #' @param xlabel character, title of xaxis
 #' @param ylabel character, title of yaxis
+#' @param ... further arguments passed to \code{\link[ggplot2]{theme}}
 #' @return ggplot2 object
 
 draw_plot <- function(x = mbar_to_elevation(),
                       main = "Wave Height",
                       xlabel = "Date",
-                      ylabel = "Surface Elevation (m)"){
+                      ylabel = "Surface Elevation (m)",
+                      ...){
 
   #filter data and take one measurement every second
   x.sec <- x %>% dplyr::slice(which(dplyr::row_number() %% 4 == 1))
@@ -31,12 +33,14 @@ draw_plot <- function(x = mbar_to_elevation(),
 #' @param main character, title
 #' @param xlabel character, title of xaxis
 #' @param ylabel character, title of yaxis
+#' @param ... further arguments passed to \code{\link[ggplot2]{theme}}
 #' @return ggplot2 object
 
 wavespec_plot <- function(x = wave_stats(),
                       main = "Significant Wave Height",
                       xlabel = "Date",
-                      ylabel = "Significant Wave Height (m)"){
+                      ylabel = "Significant Wave Height (m)",
+                      ...){
 
 
     ggplot2::ggplot(data = x, ggplot2::aes(x = .data$DateTime, y = .data$Hm0)) +

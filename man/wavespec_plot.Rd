@@ -8,7 +8,8 @@ wavespec_plot(
   x = wave_stats(),
   main = "Significant Wave Height",
   xlabel = "Date",
-  ylabel = "Significant Wave Height (m)"
+  ylabel = "Significant Wave Height (m)",
+  ...
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ wavespec_plot(
 \item{xlabel}{character, title of xaxis}
 
 \item{ylabel}{character, title of yaxis}
+
+\item{...}{further arguments passed to \code{\link[ggplot2]{theme}}}
 }
 \value{
 ggplot2 object
