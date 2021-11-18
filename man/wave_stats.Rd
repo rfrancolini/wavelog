@@ -4,12 +4,22 @@
 \alias{wave_stats}
 \title{convert pressure to sea surface elevation, correct for signal attenuation}
 \usage{
-wave_stats(wavelogger = mbar_to_elevation(), burst = 30, ...)
+wave_stats(
+  wavelogger = mbar_to_elevation(),
+  burst = 30,
+  site = NA,
+  output = NA,
+  ...
+)
 }
 \arguments{
 \item{wavelogger}{tibble, wavelogger data}
 
 \item{burst}{numeric, time in minutes to calculate wave stats}
+
+\item{site}{character, name of the site}
+
+\item{output}{character, name of file to store file data in}
 
 \item{...}{other}
 }

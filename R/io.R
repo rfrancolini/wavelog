@@ -114,10 +114,12 @@ example_airpressure <- function(){
 #' @export
 #' @param api_key character, your api key for mesowest
 #' @param wavelogger tibble, wavelogger data
+#' @param output character, filename to save raw airpressure data
 #' @return tibble
 
 read_airpressure <- function(api_key = NA,
-                              wavelogger = read_wavelogger())
+                              wavelogger = read_wavelogger(),
+                              output = NA)
 {
    stopifnot(inherits(api_key, "character"))
    suppressMessages(mesowest::requestToken(api_key))
@@ -145,6 +147,9 @@ read_airpressure <- function(api_key = NA,
 
   x$DateTime = as.POSIXct(x$DateTime, format = "%Y-%m-%dT%H:%M:%S", tz = 'UTC')
   x <- na.omit(x)
+
+  if (!is.na(output)) {
+    readr::write_csv(x, file = output) }
 
   return(x)
 
@@ -205,18 +210,28 @@ mbar_to_elevation <- function(wavelogger = interp_swpressure(),
 #' @export
 #' @param wavelogger tibble, wavelogger data
 #' @param burst numeric, time in minutes to calculate wave stats
+#' @param site character, name of the site
+#' @param output character, name of file to store file data in
 #' @param ... other
 #' @return tibble
 
 wave_stats <- function(wavelogger = mbar_to_elevation(),
                       burst = 30,
+                      site = NA,
+                      output = NA,
                       ...)
 {
 
   waves_spec <- owhlR::processBursts(Ht = wavelogger$swdepth,
                                      times = wavelogger$DateTime,
                                      burstLength = burst,
-                                     Fs = 4)
+                                     Fs = 4,
+                                     ...)
+
+  if (!is.na(site)) {waves_spec <- waves_spec %>% dplyr::mutate(Site = site)}
+
+  if (!is.na(output)) {
+    readr::write_csv(waves_spec, file = output) }
 
   return(waves_spec)
 }

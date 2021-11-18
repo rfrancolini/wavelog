@@ -4,12 +4,14 @@
 \alias{read_airpressure}
 \title{retrieve air pressure data from mesowest database}
 \usage{
-read_airpressure(api_key = NA, wavelogger = read_wavelogger())
+read_airpressure(api_key = NA, wavelogger = read_wavelogger(), output = NA)
 }
 \arguments{
 \item{api_key}{character, your api key for mesowest}
 
 \item{wavelogger}{tibble, wavelogger data}
+
+\item{output}{character, filename to save raw airpressure data}
 }
 \value{
 tibble
